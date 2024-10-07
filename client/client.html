@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Our simple HTTP server</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  
+  <script>
+    //Submit buttons -SJH
+    let submitCapital;
+    let submitInRegion;
+    let submitFullData;
+    let submitAllNames;
+
+    //Parameter fields -SJH
+    let countryNameCapital;
+    let regionName;
+    let countryNameFullData;
+
+    //GET/HEAD method setter fields -SJH
+    let requestMethodCapital;
+    let requestMethodInRegion;
+    let requestMethodFullData;
+    let requestMethodAllNames;
+
+    //Content areas for displaying responses -SJH
+    let contentCapital;
+    let contentInRegion;
+    let contentFullData;
+    let contentAllName;
+
+    //Parses and displays the json -SJH
+    const parseJson = async (response) => {
+
+      if (response.status === 200) {
+        //Check that this is a GET or HEAD request response -SJH
+        if (response.body) {
+          const jsonObj = await response.json();
+          contentRegion.innerHTML = "<h2>Success</h2><br><p>" + JSON.stringify(jsonObj) + "</p>"
+        }
+        else{
+          contentRegion.innerHTML = "<h2>Success</h2><br>"
+        } 
+      } 
+      else if (response.status === 201) {
+        const jsonObj = await response.json();
+        contentRegion.innerHTML = "<h2>Created</h2><br><p>" + jsonObj.message + "</p>"
+      }
+      else if (response.status === 204) {
+        contentRegion.innerHTML = "<h2>Updated (No content)</h2>"
+      }
+      else {
+        if (response.body) {
+          const jsonObj = await response.json();
+          contentRegion.innerHTML = "<h2>" + jsonObj.id + "</h2><br><p>" + jsonObj.message + "</p>"
+        }
+        else {
+          contentRegion.innerHTML = "<h2>notFound</h2>"
+        }
+      }
+    }
+
+    //Handles the response that comes back from the server after a request is sent. -SJH
+    const handleResponse = (response) => {
+      acceptType = response.headers.get("Content-Type");
+      //JSON responses -SJH
+      if (acceptType === "application/json"){
+        parseJson(response);
+      }
+    }
+
+    //Called when the capital submit button is clicked. Sends a fetch request to the server 
+    //to get JSON back. -SJH
+    const sendCapitalRequest = async () => {
+      const url = "/getCountryCapital";
+      const type = "application/json";
+      const method = methodField.value;
+      const headerObject = {
+        method,
+        headers: { "Accept": type}
+      }
+
+      const response = await fetch(url, headerObject)
+      handleResponse(response);
+    }
+
+    //Called when the Add User button is clicked. Sends a fetch request to the server 
+    //to get JSON back. -SJH
+    const sendPostRequest = async () =>{
+      const url = "/addUser";
+      const type = "application/json";
+      const method = "POST";
+      const nameToSend = nameField.value;
+      const ageToSend = ageField.value;
+      //Header object has the method (post), the type of data it is sending, 
+      //the type of data it wants back, and a body containing the data sent -SJH
+      const request = {
+        method,
+        headers: { 
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Accept": type
+        },
+        //Note: This is the same format as with parameters in search queries -SJH
+        body: `name=${nameToSend}&age=${ageToSend}`
+      }
+
+      const response = await fetch(url, request)
+      handleResponse(response);
+    }
+
+
+
+    //Initialization method. Sets up event listeners for the menu system, which then send 
+    //requests to the server -SJH
+    const init = () => {
+        //Initializing submit buttons -SJH
+        submitCapital = document.querySelector("#sendRequestCapital");
+        submitInRegion = document.querySelector("#sendRequestInRegion");
+        submitFullData = document.querySelector("#sendRequestFullData");
+        submitAllNames = document.querySelector("#sendRequestAllNames");
+
+        //submitCapital.onClick = 
+
+        //Initializing parameter fields -SJH
+        countryNameCapital = document.querySelector("#countryNameCapital");
+        regionName = document.querySelector("#regionName");
+        countryNameFullData = document.querySelector("#countryNameFullData");
+
+        //Initializing request method fields -SJH
+        requestMethodCapital = document.querySelector("#requestMethodCapital");
+        requestMethodInRegion = document.querySelector("#requestMethodInRegion");
+        requestMethodFullData = document.querySelector("#requestMethodFullData");
+        requestMethodAllNames = document.querySelector("#requestMethodAllNames");
+
+        //Initializing content areas -SJH
+        contentCapital = document.querySelector("#contentCapital");
+        contentInRegion = document.querySelector("#contentInRegion");
+        contentFullData = document.querySelector("#contentFullData");
+        contentAllName = document.querySelector("#contentAllName");
+    };
+
+    //Waiting until the window loads to grab references to html elements -SJH
+    window.onload = () =>{
+      init();
+    }
+  </script>
+</head>
+<body>
+  <section>
+    <h3>GET/HEAD REQUEST: COUNTRY CAPITAL</h3>
+    <div>
+      <label for="countryNameCapital">Country Name: </label>
+      <input id="countryNameCapital" type="text" name="name" />
+      <select id='requestMethodCapital'>
+        <option value='GET'>GET</option>
+        <option value='HEAD'>HEAD</option>
+      </select>
+      <button id="sendRequestCapital">Submit</button>
+    </div>
+    <div id = "contentCapital"></div>
+  </section>
+
+  <section>
+    <h3>GET/HEAD REQUEST: ALL COUNTRIES IN REGION</h3>
+    <div>
+      <label for="regionName">Region: </label>
+      <input id="regionName" type="text" name="name" />
+      <select id='requestMethodInRegion'>
+        <option value='GET'>GET</option>
+        <option value='HEAD'>HEAD</option>
+      </select>
+      <button id="sendRequestInRegion">Submit</button>
+    </div>
+    <div id = "contentInRegion"></div>
+  </section>
+
+  <section>
+    <h3>GET/HEAD REQUEST: FULL COUNTRY DATA</h3>
+    <div>
+      <label for="countryNameFullData">Country Name: </label>
+      <input id="countryNameFullData" type="text" name="name" />
+      <select id='requestMethodFullData'>
+        <option value='GET'>GET</option>
+        <option value='HEAD'>HEAD</option>
+      </select>
+      <button id="sendRequestFullData">Submit</button>
+    </div>
+    <div id = "contentFullData"></div>
+  </section>
+
+  <section>
+    <h3>GET/HEAD REQUEST: ALL COUNTRY NAMES</h3>
+    <div>
+      <select id='requestMethodAllNames'>
+        <option value='GET'>GET</option>
+        <option value='HEAD'>HEAD</option>
+      </select>
+      <button id="sendRequestAllNames">Submit</button>
+    </div>
+    <div id = "contentAllNames"></div>
+  </section>
+</body>
+</html>
