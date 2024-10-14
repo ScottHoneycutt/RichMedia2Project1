@@ -5,6 +5,7 @@ const queryString = require('querystring');
 const resourceNotFound = fs.readFileSync(`${__dirname}/../data/resourceNotFound.json`);
 const badRequestMissingParam = fs.readFileSync(`${__dirname}/../data/missingParam.json`);
 const badRequestInvalidParam = fs.readFileSync(`${__dirname}/../data/invalidParam.json`);
+const badRequestBadType = fs.readFileSync(`${__dirname}/../data/badType.json`);
 const countriesJson = fs.readFileSync(`${__dirname}/../data/countries.json`);
 
 const countriesObj = JSON.parse(countriesJson);
@@ -23,7 +24,7 @@ const searchForCountryByName = (countryName) => {
   for (let i = 0; i < countriesObj.length; i++) {
     if (countriesObj[i].name === countryName) {
       countryFoundFlag = true;
-      countryIndex = countriesObj[i];
+      countryIndex = i;
     }
   }
   // Country was found -> return index where country was found.
@@ -38,7 +39,6 @@ const searchForCountryByName = (countryName) => {
 const getCountryCapital = (request, response) => {
   // Check for search queries -SJH
   if (request.queries) {
-    console.log(request.queries);
     if (Object.keys(request.queries).includes('country')) {
       // Find country from the json object -SJH
       let countryFoundFlag = false;
@@ -88,7 +88,6 @@ const getCountryCapital = (request, response) => {
 const getCountriesByRegion = (request, response) => {
   // Check for search queries -SJH
   if (request.queries) {
-    console.log(request.queries);
     if (Object.keys(request.queries).includes('region')) {
       // Iterate through all countries and add all matches to the list of names -SJH
       const countryNames = [];
@@ -124,7 +123,6 @@ const getCountriesByRegion = (request, response) => {
 const getFullCountryData = (request, response) => {
   // Check for search queries -SJH
   if (request.queries) {
-    console.log(request.queries);
     if (Object.keys(request.queries).includes('country')) {
       // Find country from the json object -SJH
       let countryFoundFlag = false;
@@ -201,9 +199,9 @@ const getNotFound = (request, response) => {
   response.end();
 };
 
-//= ================================================================================================
+// =================================================================================================
 // POST REQUEST HANDLING ---------------------------------------------------------------------------
-//= ================================================================================================
+// =================================================================================================
 
 // Part 2 of adding a new country (after the body is parsed) -SJH
 const addCountryPt2 = (request, response) => {
@@ -238,7 +236,7 @@ const addCountryPt2 = (request, response) => {
       'Content-Type': 'application/json',
       'Content-Length': Buffer.byteLength(JSON.stringify(newCountry), 'utf8'),
     });
-    response.write(newCountry);
+    response.write(JSON.stringify(newCountry));
     response.end();
   }
 };
@@ -256,7 +254,7 @@ const removeCountryPt2 = (request, response) => {
     });
     response.write(badRequestMissingParam);
     response.end();
-  } else if (countryIndex !== -1) {
+  } else if (countryIndex === -1) {
     // Send back failure case: Could not find country to delete -SJH
     response.writeHead(400, {
       'Content-Type': 'application/json',
@@ -266,7 +264,8 @@ const removeCountryPt2 = (request, response) => {
     response.end();
   } else {
     // Delete country and tell the client that the action succeeded. -SJH
-    const deletedCountry = countriesObj.splice(countryIndex, countryIndex);
+    // const deletedCountry = countriesJson[countryIndex];
+    const deletedCountry = countriesObj.splice(countryIndex, 1);
     response.writeHead(204, {
       'Content-Type': 'application/json',
       'Content-Length': Buffer.byteLength(JSON.stringify(deletedCountry), 'utf8'),
@@ -287,9 +286,25 @@ const handleParsedBody = async (request, response, callback) => {
   // Request has finished sending body data -SJH
   await request.on('end', () => {
     // Convert that array into a single string -SJH
-    const bodyString = Buffer.concat(body).toString();
-    request.body = queryString.parse(bodyString);
-    callback(request, response);
+    // Data sent from client in urlencoded format -SJH
+    if (request.headers['content-type'] === 'application/x-www-form-urlencoded') {
+      const bodyString = Buffer.concat(body).toString();
+      request.body = queryString.parse(bodyString);
+      callback(request, response);
+    } else if (request.headers['content-type'] === 'application/json') {
+      // Data sent from client in JSON format -SJH
+      const bodyString = Buffer.concat(body).toString();
+      request.body = JSON.parse(bodyString);
+      callback(request, response);
+    } else {
+      // Bad data type. Throw 400 code. -SJH
+      response.writeHead(400, {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(JSON.stringify(badRequestBadType), 'utf8'),
+      });
+      response.write(badRequestBadType);
+      response.end();
+    }
   });
 };
 

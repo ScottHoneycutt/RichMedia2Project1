@@ -1,1 +1,1 @@
-{"message":"Placeholder missing parameter error message!","id":"badRequest"}
+{"message":"One or more required parameters for this request were not present. <br>\"/getCountryCapital\" and \"/getFullCountryData\" requests must have a \"country\" parameter.<br>\"/getCountryNamesByRegion\" requests must have a \"region\" parameter.<br>\"/addCountry\" requests must have a \"name\" parameter, a \"capital\" parameter, and a \"region\" parameter.<br>\"/removeCountry\" requests must have a \"name\" parameter.","id":"badRequest:missingParam"}
