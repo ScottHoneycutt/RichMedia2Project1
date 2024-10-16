@@ -31,12 +31,12 @@
         
           <section class="content m-6">
             <h3 class="subtitle">/addCountry</h3>
-            <p class="is-inline">Request method: POST<br>Adds a new country to the dataset. Requires "name", "capital", and "region" body parameters. All parameters are case sensitive strings. If a new country is added, a response showing the new country data in JSON format is returned. If a country already exists with the same name, updates that country to have the specified capital and region instead of creating a new one.<br>Possible response codes: 201, 204, 400<br>Example: </p> <p class="is-family-code is-inline"> /addCountry?name=newCountry&capital=newCapital&ampregion=newRegion</p>
+            <p class="is-inline">Request method: POST<br>Adds a new country to the dataset. Requires "name", "capital", and "region" body parameters. All parameters are case sensitive strings. If a new country is added, a response showing the new country data in JSON format is returned. If a country already exists with the same name, updates that country to have the specified capital and region instead of creating a new one.<br>Possible response codes: 201, 204, 400<br>Parameter example: </p> <p class="is-family-code is-inline">name=newCountry&capital=newCapital&ampregion=newRegion</p>
           </section>
         
           <section class="content m-6 is-normal">
             <h3 class="subtitle">/removeCountry</h3>
-            <p class="is-inline">Request method: POST<br>Removes the specified country from the dataset. Requires a "name" body parameter. Name parameter is a case sensitive string.<br>Possible response codes: 204, 400<br>Example: </p> <p class="is-family-code is-inline">/removeCountry?name=Angola</p>
+            <p class="is-inline">Request method: POST<br>Removes the specified country from the dataset. Requires a "name" body parameter. Name parameter is a case sensitive string.<br>Possible response codes: 204, 400<br>Parameter example: </p> <p class="is-family-code is-inline">name=Angola</p>
           </section>
     </div>
 </div>
