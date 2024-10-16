@@ -8,7 +8,7 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 // URL struct for faster processing than a big if-else statement -SJH
 const urlStruct = {
   '/': htmlHandler.getIndex,
-  '/styles.css': htmlHandler.getCss,
+  '/documentation': htmlHandler.getDocumentation,
   '/getCountryCapital': jsonHandler.getCountryCapital,
   '/getCountryNamesByRegion': jsonHandler.getCountriesByRegion,
   '/getFullCountryData': jsonHandler.getFullCountryData,

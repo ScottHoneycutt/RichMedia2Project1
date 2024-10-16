@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Countries API</title>
   <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="/styles.css">
-  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+
   <script>
     //Submit buttons -SJH
     let submitCapital;
@@ -47,10 +48,10 @@
           console.log(jsonObj);
           contentObj.innerHTML = "<h2>Success</h2><p>" + JSON.stringify(jsonObj) + "</p>";
         }
-        else{
+        else {
           contentObj.innerHTML = "<h2>Success</h2>";
-        } 
-      } 
+        }
+      }
       else if (response.status === 201) {
         const jsonObj = await response.json();
         contentObj.innerHTML = "<h2>Created</h2><p>" + JSON.stringify(jsonObj) + "</p>";
@@ -64,7 +65,7 @@
           contentObj.innerHTML = "<h2>" + jsonObj.id + "</h2><p>" + jsonObj.message + "</p>";
         }
         else {
-          contentObj.innerHTML = "<h2>badRequest</h2><p>Please make a GET request with the same " + 
+          contentObj.innerHTML = "<h2>badRequest</h2><p>Please make a GET request with the same " +
             "parameters to see detailed error message.</p>";
         }
       }
@@ -74,7 +75,7 @@
     const handleResponse = (response, contentObj) => {
       acceptType = response.headers.get("Content-Type");
       //JSON responses -SJH
-      if (acceptType === "application/json"){
+      if (acceptType === "application/json") {
         parseJson(response, contentObj);
       }
     }
@@ -87,7 +88,7 @@
       const method = requestMethodCapital.value;
       const headerObject = {
         method,
-        headers: { "Accept": type}
+        headers: { "Accept": type }
       }
 
       //Append params to url if they exist -SJH
@@ -107,7 +108,7 @@
       const method = requestMethodInRegion.value;
       const headerObject = {
         method,
-        headers: { "Accept": type}
+        headers: { "Accept": type }
       }
 
       //Append params to url if they exist -SJH
@@ -127,7 +128,7 @@
       const method = requestMethodFullData.value;
       const headerObject = {
         method,
-        headers: { "Accept": type}
+        headers: { "Accept": type }
       }
 
       //Append params to url if they exist -SJH
@@ -147,7 +148,7 @@
       const method = requestMethodAllNames.value;
       const headerObject = {
         method,
-        headers: { "Accept": type}
+        headers: { "Accept": type }
       }
 
       const response = await fetch(url, headerObject);
@@ -156,7 +157,7 @@
 
     //Called when the add country button is clicked. Sends a fetch request to the server 
     //to get JSON back. -SJH
-    const sendAddCountryRequest = async () =>{
+    const sendAddCountryRequest = async () => {
       const url = "/addCountry";
       const type = "application/json";
       const method = "POST";
@@ -167,7 +168,7 @@
       //the type of data it wants back, and a body containing the data sent -SJH
       const request = {
         method,
-        headers: { 
+        headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           "Accept": type
         },
@@ -181,7 +182,7 @@
 
     //Called when the add country button is clicked. Sends a fetch request to the server 
     //to get JSON back. -SJH
-    const sendRemoveCountryRequest = async () =>{
+    const sendRemoveCountryRequest = async () => {
       const url = "/removeCountry";
       const type = "application/json";
       const method = "POST";
@@ -190,7 +191,7 @@
       //the type of data it wants back, and a body containing the data sent -SJH
       const request = {
         method,
-        headers: { 
+        headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           "Accept": type
         },
@@ -205,128 +206,144 @@
     //Initialization method. Sets up event listeners for the menu system, which then send 
     //requests to the server -SJH
     const init = () => {
-        //Initializing submit buttons -SJH
-        submitCapital = document.querySelector("#sendRequestCapital");
-        submitInRegion = document.querySelector("#sendRequestInRegion");
-        submitFullData = document.querySelector("#sendRequestFullData");
-        submitAllNames = document.querySelector("#sendRequestAllNames");
-        submitAddCountry = document.querySelector("#sendRequestAddCountry");
-        submitRemoveCountry = document.querySelector("#sendRequestRemoveCountry");
-        //onclick events -SJH
-        submitCapital.onclick = sendCapitalRequest;
-        submitInRegion.onclick = sendInRegionRequest;
-        submitFullData.onclick = sendFullDataRequest;
-        submitAllNames.onclick = sendAllNamesRequest;
-        submitAddCountry.onclick = sendAddCountryRequest;
-        submitRemoveCountry.onclick = sendRemoveCountryRequest;
+      //Initializing submit buttons -SJH
+      submitCapital = document.querySelector("#sendRequestCapital");
+      submitInRegion = document.querySelector("#sendRequestInRegion");
+      submitFullData = document.querySelector("#sendRequestFullData");
+      submitAllNames = document.querySelector("#sendRequestAllNames");
+      submitAddCountry = document.querySelector("#sendRequestAddCountry");
+      submitRemoveCountry = document.querySelector("#sendRequestRemoveCountry");
+      //onclick events -SJH
+      submitCapital.onclick = sendCapitalRequest;
+      submitInRegion.onclick = sendInRegionRequest;
+      submitFullData.onclick = sendFullDataRequest;
+      submitAllNames.onclick = sendAllNamesRequest;
+      submitAddCountry.onclick = sendAddCountryRequest;
+      submitRemoveCountry.onclick = sendRemoveCountryRequest;
 
-        //Initializing parameter fields -SJH
-        countryNameCapital = document.querySelector("#countryNameCapital");
-        regionName = document.querySelector("#regionName");
-        countryNameFullData = document.querySelector("#countryNameFullData");
-        countryNameAddCountry = document.querySelector("#countryNameAddCountry");
-        capitalAddCountry = document.querySelector("#capitalAddCountry");
-        regionAddCountry = document.querySelector("#regionAddCountry");
-        countryNameRemoveCountry = document.querySelector("#countryNameRemoveCountry");
+      //Initializing parameter fields -SJH
+      countryNameCapital = document.querySelector("#countryNameCapital");
+      regionName = document.querySelector("#regionName");
+      countryNameFullData = document.querySelector("#countryNameFullData");
+      countryNameAddCountry = document.querySelector("#countryNameAddCountry");
+      capitalAddCountry = document.querySelector("#capitalAddCountry");
+      regionAddCountry = document.querySelector("#regionAddCountry");
+      countryNameRemoveCountry = document.querySelector("#countryNameRemoveCountry");
 
-        //Initializing request method fields -SJH
-        requestMethodCapital = document.querySelector("#requestMethodCapital");
-        requestMethodInRegion = document.querySelector("#requestMethodInRegion");
-        requestMethodFullData = document.querySelector("#requestMethodFullData");
-        requestMethodAllNames = document.querySelector("#requestMethodAllNames");
+      //Initializing request method fields -SJH
+      requestMethodCapital = document.querySelector("#requestMethodCapital");
+      requestMethodInRegion = document.querySelector("#requestMethodInRegion");
+      requestMethodFullData = document.querySelector("#requestMethodFullData");
+      requestMethodAllNames = document.querySelector("#requestMethodAllNames");
 
-        //Initializing content areas -SJH
-        contentCapital = document.querySelector("#contentCapital");
-        contentInRegion = document.querySelector("#contentInRegion");
-        contentFullData = document.querySelector("#contentFullData");
-        contentAllNames = document.querySelector("#contentAllNames");
-        contentAddCountry = document.querySelector("#contentAddCountry");
-        contentRemoveCountry = document.querySelector("#contentRemoveCountry");
+      //Initializing content areas -SJH
+      contentCapital = document.querySelector("#contentCapital");
+      contentInRegion = document.querySelector("#contentInRegion");
+      contentFullData = document.querySelector("#contentFullData");
+      contentAllNames = document.querySelector("#contentAllNames");
+      contentAddCountry = document.querySelector("#contentAddCountry");
+      contentRemoveCountry = document.querySelector("#contentRemoveCountry");
     };
 
     //Waiting until the window loads to grab references to html elements -SJH
-    window.onload = () =>{
+    window.onload = () => {
       init();
     }
   </script>
 </head>
+
 <body>
-  <section>
-    <h3>GET/HEAD REQUEST: COUNTRY CAPITAL</h3>
-    <div>
-      <label for="countryNameCapital">Country Name: </label>
-      <input id="countryNameCapital" type="text" name="country" />
-      <select id='requestMethodCapital'>
-        <option value='GET'>GET</option>
-        <option value='HEAD'>HEAD</option>
-      </select>
-      <button id="sendRequestCapital">Submit</button>
-    </div>
-    <div id = "contentCapital"></div>
-  </section>
+  <h1 class="title m-5">Countries API</h1>
+  <a class="button is-small is-link ml-5" href="/documentation">Documentation</a>
+  <div class="columns is-desktop">
+    <div class="column is-three-fifths">
+      <section class="content m-6">
+        <h3>GET/HEAD REQUEST: COUNTRY CAPITAL</h3>
+        <div>
+          <label for="countryNameCapital">Country Name: </label>
+          <input class="input" id="countryNameCapital" type="text" name="country" />
+          <div class="select is-primary mb-1 mt-1">
+            <select id='requestMethodCapital'>
+              <option value='GET'>GET</option>
+              <option value='HEAD'>HEAD</option>
+            </select>
+          </div>
+          <button class="button is-primary mt-1 mb-1" id="sendRequestCapital">Submit</button>
+        </div>
+        <pre class="is-family-code" id="contentCapital"></pre>
+      </section>
 
-  <section>
-    <h3>GET/HEAD REQUEST: ALL COUNTRIES IN REGION</h3>
-    <div>
-      <label for="regionName">Region: </label>
-      <input id="regionName" type="text" name="region" />
-      <select id='requestMethodInRegion'>
-        <option value='GET'>GET</option>
-        <option value='HEAD'>HEAD</option>
-      </select>
-      <button id="sendRequestInRegion">Submit</button>
-    </div>
-    <div id = "contentInRegion"></div>
-  </section>
+      <section class="content m-6">
+        <h3>GET/HEAD REQUEST: ALL COUNTRIES IN REGION</h3>
+        <div>
+          <label for="regionName">Region: </label>
+          <input class="input" id="regionName" type="text" name="region" />
+          <div class="select is-primary mb-1 mt-1">
+            <select id='requestMethodInRegion'>
+              <option value='GET'>GET</option>
+              <option value='HEAD'>HEAD</option>
+            </select>
+          </div>
+          <button class="button is-primary mt-1 mb-1" id="sendRequestInRegion">Submit</button>
+        </div>
+        <pre class="is-family-code" id="contentInRegion"></pre>
+      </section>
 
-  <section>
-    <h3>GET/HEAD REQUEST: FULL COUNTRY DATA</h3>
-    <div>
-      <label for="countryNameFullData">Country Name: </label>
-      <input id="countryNameFullData" type="text" name="country" />
-      <select id='requestMethodFullData'>
-        <option value='GET'>GET</option>
-        <option value='HEAD'>HEAD</option>
-      </select>
-      <button id="sendRequestFullData">Submit</button>
-    </div>
-    <div id = "contentFullData"></div>
-  </section>
+      <section class="content m-6">
+        <h3>GET/HEAD REQUEST: FULL COUNTRY DATA</h3>
+        <div>
+          <label for="countryNameFullData">Country Name: </label>
+          <input class="input" id="countryNameFullData" type="text" name="country" />
+          <div class="select is-primary mb-1 mt-1">
+            <select id='requestMethodFullData'>
+              <option value='GET'>GET</option>
+              <option value='HEAD'>HEAD</option>
+            </select>
+          </div>
+          <button class="button is-primary mt-1 mb-1" id="sendRequestFullData">Submit</button>
+        </div>
+        <pre class="is-family-code" id="contentFullData"></pre>
+      </section>
 
-  <section>
-    <h3>GET/HEAD REQUEST: ALL COUNTRY NAMES</h3>
-    <div>
-      <select id='requestMethodAllNames'>
-        <option value='GET'>GET</option>
-        <option value='HEAD'>HEAD</option>
-      </select>
-      <button id="sendRequestAllNames">Submit</button>
-    </div>
-    <div id = "contentAllNames"></div>
-  </section>
+      <section class="content m-6">
+        <h3>GET/HEAD REQUEST: ALL COUNTRY NAMES</h3>
+        <div>
+          <div class="select is-primary mb-1 mt-1">
+            <select id='requestMethodAllNames'>
+              <option value='GET'>GET</option>
+              <option value='HEAD'>HEAD</option>
+            </select>
+          </div>
+          <button class="button is-primary mt-1 mb-1" id="sendRequestAllNames">Submit</button>
+        </div>
+        <pre class="is-family-code" id="contentAllNames"></pre>
+      </section>
 
-  <section>
-    <h3>POST REQUEST: ADD COUNTRY</h3>
-    <div>
-      <label for="countryNameAddCountry">Country Name: </label>
-      <input id="countryNameAddCountry" type="text" name="name" />
-      <label for="capitalAddCountry">Capital: </label>
-      <input id="capitalAddCountry" type="text" name="capital" />
-      <label for="regionAddCountry">Region: </label>
-      <input id="regionAddCountry" type="text" name="region" />
-      <button id="sendRequestAddCountry">Submit</button>
-    </div>
-    <div id = "contentAddCountry"></div>
-  </section>
+      <section class="content m-6">
+        <h3>POST REQUEST: ADD COUNTRY</h3>
+        <div>
+          <label for="countryNameAddCountry">Country Name: </label>
+          <input class="input" id="countryNameAddCountry" type="text" name="name" />
+          <label for="capitalAddCountry">Capital: </label>
+          <input class="input" id="capitalAddCountry" type="text" name="capital" />
+          <label for="regionAddCountry">Region: </label>
+          <input class="input" id="regionAddCountry" type="text" name="region" />
+          <button class="button is-primary mt-1 mb-1" id="sendRequestAddCountry">Submit</button>
+        </div>
+        <pre class="is-family-code" id="contentAddCountry"></pre>
+      </section>
 
-  <section>
-    <h3>POST REQUEST: REMOVE COUNTRY</h3>
-    <div>
-      <label for="countryNameRemoveCountry">Country Name: </label>
-      <input id="countryNameRemoveCountry" type="text" name="country" />
-      <button id="sendRequestRemoveCountry">Submit</button>
+      <section class="content m-6">
+        <h3>POST REQUEST: REMOVE COUNTRY</h3>
+        <div>
+          <label for="countryNameRemoveCountry">Country Name: </label>
+          <input class="input" id="countryNameRemoveCountry" type="text" name="country" />
+          <button class="button is-primary mt-1 mb-1" id="sendRequestRemoveCountry">Submit</button>
+        </div>
+        <pre class="is-family-code" id="contentRemoveCountry"></pre>
+      </section>
     </div>
-    <div id = "contentRemoveCountry"></div>
-  </section>
+  </div>
 </body>
+
 </html>

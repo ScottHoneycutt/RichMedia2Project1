@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Countries API Documentation</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+</head>
+<body>
+<h1 class="title m-5">Countries API Documentation</h1>
+<div class="columns is-desktop">
+    <div class="column is-three-fifths">
+        <section class="content m-6">
+            <h3 class="subtitle">/getCountryCapital</h3>
+            <p class="is-inline">Request methods: GET or HEAD<br>Responds with the name of the specified country's capital in JSON format. Requires a "country" query parameter. Country parameter is a case sensitive string.<br>Possible response codes: 200, 400<br>Example: </p> <p class="is-family-code is-inline">/getCountryCapital?country=Angola</p>
+          </section>
+        
+          <section class="content m-6">
+            <h3 class="subtitle">/getCountryNamesByRegion</h3>
+            <p class="is-inline">Request methods: GET or HEAD<br>Responds with a JSON list of the names of all countries inside the specified region. Requires a "region" query parameter. Region parameter is a case sensitive string.<br>Possible response codes: 200, 400<br>Example: </p> <p class="is-family-code is-inline">/getCountryNamesByRegion?region=Asia</p>
+          </section>
+        
+          <section class="content m-6">
+            <h3 class="subtitle">/getFullCountryData</h3>
+            <p class="is-inline">Request methods: GET or HEAD<br>Responds with the full JSON data of a specified country. Requires a "country" query parameter. Country parameter is a case sensitive string.<br>Possible response codes: 200, 400<br>Example: </p> <p class="is-family-code is-inline">/getFullCountryData?country=Angola</p>
+          </section>
+        
+          <section class="content m-6">
+            <h3 class="subtitle">/getAllCountryNames</h3>
+            <p class="is-inline">Request methods: GET or HEAD<br>Responds with a list of all country names in the dataset.<br>Possible response codes: 200<br>Example: </p> <p class="is-family-code is-inline">/getAllCountryNames</p>
+          </section>
+        
+          <section class="content m-6">
+            <h3 class="subtitle">/addCountry</h3>
+            <p class="is-inline">Request method: POST<br>Adds a new country to the dataset. Requires "name", "capital", and "region" body parameters. All parameters are case sensitive strings. If a new country is added, a response showing the new country data in JSON format is returned. If a country already exists with the same name, updates that country to have the specified capital and region instead of creating a new one.<br>Possible response codes: 201, 204, 400<br>Example: </p> <p class="is-family-code is-inline"> /addCountry?name=newCountry&capital=newCapital&ampregion=newRegion</p>
+          </section>
+        
+          <section class="content m-6 is-normal">
+            <h3 class="subtitle">/removeCountry</h3>
+            <p class="is-inline">Request method: POST<br>Removes the specified country from the dataset. Requires a "name" body parameter. Name parameter is a case sensitive string.<br>Possible response codes: 204, 400<br>Example: </p> <p class="is-family-code is-inline">/removeCountry?name=Angola</p>
+          </section>
+    </div>
+</div>
+</body>
+</html>
