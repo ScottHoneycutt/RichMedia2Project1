@@ -2,7 +2,6 @@ const fs = require('fs');
 
 const index = fs.readFileSync(`${__dirname}/../client/client.html`);
 const documentation = fs.readFileSync(`${__dirname}/../client/documentation.html`);
-const css = fs.readFileSync(`${__dirname}/../client/styles.css`);
 
 // Responds with the main HTML page -SJH
 const getIndex = (request, response) => {
